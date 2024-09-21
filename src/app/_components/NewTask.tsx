@@ -1,18 +1,19 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
-type Props = {};
+type Props = {
+    setTasks: React.Dispatch<React.SetStateAction<string[]>>;
+};
 
-export default function NewTask({}: Props) {
-    const [tasks, setTasks] = useState<string[]>([]);
+export default function NewTask({ setTasks }: Props) {
     const [newTask, setNewTask] = useState<string>("");
 
     function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
-        
+
         if (newTask.trim() === "") return;
-        
+
         console.log("New task submitted.");
         setTasks((prev) => [...prev, newTask.trim()]);
         setNewTask("");
@@ -24,13 +25,6 @@ export default function NewTask({}: Props) {
 
     return (
         <>
-            {tasks.length > 0 && (
-                <ul className="bg-stone-600 px-8 py-4 rounded-xl list-disc list-inside">
-                    {tasks.map((task, index) => (
-                        <li key={index}>{task}</li>
-                    ))}
-                </ul>
-            )}
             <form
                 action=""
                 onSubmit={handleSubmit}
@@ -44,12 +38,12 @@ export default function NewTask({}: Props) {
                         name="New task"
                         placeholder="Type something..."
                         value={newTask}
-                        className="w-full p-1 text-black"
+                        className="w-full p-1 text-black rounded-md"
                         onChange={handleChange}
                     />
                 </div>
 
-                <button type="submit" className="bg-slate-700 rounded-md">
+                <button type="submit" className="bg-slate-700 rounded-md w-1/4">
                     Create new task
                 </button>
             </form>
