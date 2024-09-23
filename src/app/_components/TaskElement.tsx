@@ -37,7 +37,10 @@ export default function TaskElement({
     };
 
     useEffect(() => {
-        if (days.every((day) => achievedDays.includes(day))) {
+        if (
+            achievedDays.length > 0 &&
+            days.every((day) => achievedDays.includes(day))
+        ) {
             setIsCompleted(true);
             console.log("tous les jours sont faits");
         } else {
@@ -64,10 +67,28 @@ export default function TaskElement({
                     {content}
                 </p>
                 <div className="text-sm font-bold text-blue-800">
-                    Difficulty: {difficultyLevel}
+                    Difficulty:{" "}
+                    {difficultyLevel === 5
+                        ? "Epic"
+                        : difficultyLevel === 4
+                        ? "Hard"
+                        : difficultyLevel === 3
+                        ? "Average"
+                        : difficultyLevel === 2
+                        ? "Easy"
+                        : "Effortless"}
                 </div>
                 <div className="text-sm font-bold text-blue-400">
-                    Importance: {importanceLevel}
+                    Importance:{" "}
+                    {importanceLevel === 5
+                        ? "Urgent"
+                        : importanceLevel === 4
+                        ? "Quite important"
+                        : importanceLevel === 3
+                        ? "Moderate"
+                        : importanceLevel === 2
+                        ? "Can wait"
+                        : "Optional"}
                 </div>
                 <div className="flex gap-2">
                     {days.map((day, index) => (
