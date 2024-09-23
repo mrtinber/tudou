@@ -6,13 +6,11 @@ import {
     FaRegCircle,
     FaRegTimesCircle,
 } from "react-icons/fa";
+import { Task } from "./NewTask";
 
-type Props = {
-    content: string;
-    importanceLevel: number;
-    difficultyLevel: number;
-    days: string[];
+type TaskElementProps = Task & {
     onDelete: () => void;
+    handleToggleAchieved: () => void;
 };
 
 export default function TaskElement({
@@ -21,8 +19,10 @@ export default function TaskElement({
     difficultyLevel,
     days,
     onDelete,
-}: Props) {
-    const [isCompleted, setIsCompleted] = useState(false);
+    isAchieved, 
+    handleToggleAchieved,
+}: TaskElementProps) {
+    const [isCompleted, setIsCompleted] = useState(isAchieved);
     const [achievedDays, setAchievedDays] = useState<string[]>([]);
 
     const toggleTask = () => {
@@ -42,11 +42,14 @@ export default function TaskElement({
             days.every((day) => achievedDays.includes(day))
         ) {
             setIsCompleted(true);
-            console.log("tous les jours sont faits");
         } else {
             setIsCompleted(false);
         }
     }, [achievedDays]);
+
+    useEffect(() => {
+        handleToggleAchieved();
+    }, [isCompleted])
 
     return (
         <div className="px-2 py-1 bg-slate-50 rounded-full text-black flex items-center justify-between">

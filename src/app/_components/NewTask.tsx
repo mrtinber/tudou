@@ -10,7 +10,8 @@ export interface Task {
     content: string;
     importanceLevel: number;
     difficultyLevel: number;
-    days?: string[];
+    days: string[];
+    isAchieved: boolean;
 }
 
 export default function NewTask({ setTasks }: Props) {
@@ -18,6 +19,8 @@ export default function NewTask({ setTasks }: Props) {
         content: "",
         difficultyLevel: 3,
         importanceLevel: 3,
+        days: [],
+        isAchieved: false,
     });
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
@@ -33,6 +36,7 @@ export default function NewTask({ setTasks }: Props) {
             difficultyLevel: 3,
             importanceLevel: 3,
             days: [],
+            isAchieved: false,
         });
         setSelectedDays([]);
 
@@ -85,14 +89,14 @@ export default function NewTask({ setTasks }: Props) {
                         name="New task"
                         placeholder="Type something..."
                         value={newTask.content}
-                        className="w-full p-1 text-black rounded-md"
+                        className="w-full py-1 px-2 text-black rounded-md"
                         onChange={handleChange}
                     />
                 </div>
 
-                <div>
+                <div className="flex flex-col gap-2">
                     <p>Select your days:</p>
-                    <div className="flex gap-4">
+                    <div className="flex gap-4 flex-wrap">
                         {[
                             "Monday",
                             "Tuesday",
@@ -105,7 +109,7 @@ export default function NewTask({ setTasks }: Props) {
                             <label
                                 key={day}
                                 htmlFor={`daysSelect-${day}`}
-                                className={`rounded-full px-4 py-1 ${
+                                className={`rounded-full px-4 py-1 cursor-pointer ${
                                     selectedDays.includes(day)
                                         ? "bg-slate-800"
                                         : "bg-slate-600"
@@ -129,35 +133,47 @@ export default function NewTask({ setTasks }: Props) {
                     <label htmlFor="importanceLevel">
                         Select level of importance:
                     </label>
-                    <input
-                        type="range"
-                        id="importanceLevel"
-                        name="importanceLevel"
-                        min="1"
-                        max="5"
-                        step="1"
-                        value={newTask.importanceLevel}
-                        onChange={handleImportance}
-                    />
+                    <br />
+                    <div className="flex gap-2">
+                        <span>Low</span>
+                        <input
+                            type="range"
+                            id="importanceLevel"
+                            name="importanceLevel"
+                            min="1"
+                            max="5"
+                            step="1"
+                            value={newTask.importanceLevel}
+                            onChange={handleImportance}
+                            className="cursor-pointer"
+                        />
+                        <span>High</span>
+                    </div>
                 </div>
 
                 <div>
                     <label htmlFor="difficultyLevel">
                         Select level of difficulty to achieve:
                     </label>
-                    <input
-                        type="range"
-                        id="difficultyLevel"
-                        name="difficultyLevel"
-                        min="1"
-                        max="5"
-                        step="1"
-                        value={newTask.difficultyLevel}
-                        onChange={handleDifficulty}
-                    />
+                    <br />
+                    <div className="flex gap-2">
+                        <span>Low</span>
+                        <input
+                            type="range"
+                            id="difficultyLevel"
+                            name="difficultyLevel"
+                            min="1"
+                            max="5"
+                            step="1"
+                            value={newTask.difficultyLevel}
+                            onChange={handleDifficulty}
+                            className="cursor-pointer"
+                        />
+                        <span>High</span>
+                    </div>
                 </div>
 
-                <button type="submit" className="bg-slate-700 rounded-md w-1/4">
+                <button type="submit" className="bg-slate-700 rounded-md w-72 mx-auto">
                     Create new task
                 </button>
             </form>
