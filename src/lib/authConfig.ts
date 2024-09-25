@@ -47,4 +47,14 @@ export const authConfig: NextAuthOptions = {
         }),
     ],
     adapter: PrismaAdapter(prisma) as Adapter,
+    cookies: {
+        sessionToken: {
+            name: `__Secure-next-auth.session-token`,
+            options: {
+                httpOnly: true,
+                sameSite: "none", // ou 'Lax', ou 'Strict' selon ton besoin
+                secure: true,
+            },
+        },
+    },
 };
