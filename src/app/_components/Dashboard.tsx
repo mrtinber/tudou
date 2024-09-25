@@ -4,9 +4,7 @@ import { useState } from "react";
 import TaskList from "./TaskList";
 import NewTask, { Task } from "./NewTask";
 
-type Props = {};
-
-export default function Dashboard({}: Props) {
+export default function Dashboard() {
     const [tasks, setTasks] = useState<Task[]>([]);
 
     return (

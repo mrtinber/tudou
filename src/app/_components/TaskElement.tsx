@@ -45,11 +45,11 @@ export default function TaskElement({
         } else {
             setIsCompleted(false);
         }
-    }, [achievedDays]);
+    }, [achievedDays, days]);
 
     useEffect(() => {
         handleToggleAchieved();
-    }, [isCompleted])
+    }, [isCompleted, handleToggleAchieved])
 
     return (
         <div className="px-2 py-1 bg-slate-50 rounded-full text-black flex items-center justify-between">

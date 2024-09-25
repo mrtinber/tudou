@@ -2,9 +2,7 @@
 
 import { signOut } from "next-auth/react";
 
-type Props = {};
-
-export default function LogoutButton({}: Props) {
+export default function LogoutButton() {
     return (
         <button
             className="bg-red-400 text-white rounded-lg p-2"
