@@ -6,11 +6,11 @@ import Email from "next-auth/providers/email";
 import prisma from "@/app/lib/prisma";
 import { Adapter } from "next-auth/adapters";
 
-const githubId = process.env.NEXT_PUBLIC_GITHUB_ID;
-const githubSecret = process.env.NEXT_PUBLIC_GITHUB_SECRET;
+const githubId = process.env.GITHUB_ID;
+const githubSecret = process.env.GITHUB_SECRET;
 
-const googleId = process.env.NEXT_PUBLIC_GOOGLE_ID;
-const googleSecret = process.env.NEXT_PUBLIC_GOOGLE_SECRET;
+const googleId = process.env.GOOGLE_ID;
+const googleSecret = process.env.GOOGLE_SECRET;
 
 if (!githubId || !githubSecret || !googleId || !googleSecret) {
     throw new Error("Missing GITHUB_ID or GITHUB_SECRET.")
@@ -21,12 +21,12 @@ if (!githubId || !githubSecret || !googleId || !googleSecret) {
 export const authConfig : NextAuthOptions = {
     providers : [
         Github({
-            clientId: process.env.NEXT_PUBLIC_GITHUB_ID as string,
-            clientSecret: process.env.NEXT_PUBLIC_GITHUB_SECRET as string,
+            clientId: process.env.GITHUB_ID as string,
+            clientSecret: process.env.GITHUB_SECRET as string,
         }),
         Google({
-            clientId: process.env.NEXT_PUBLIC_GOOGLE_ID as string,
-            clientSecret: process.env.NEXT_PUBLIC_GOOGLE_SECRET as string,
+            clientId: process.env.GOOGLE_ID as string,
+            clientSecret: process.env.GOOGLE_SECRET as string,
         }),
         Email({
             from: process.env.EMAIL_FROM as string,

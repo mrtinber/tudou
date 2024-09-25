@@ -4,7 +4,6 @@ import Header from "./_components/Header";
 import LoginButton from "./_components/LoginButton";
 import { authConfig } from "@/lib/authConfig";
 import LogoutButton from "./_components/LogoutButton";
-import Image from "next/image";
 
 export default async function Home() {
     const session = await getServerSession(authConfig);
@@ -20,7 +19,7 @@ export default async function Home() {
                     <div>
                         <p>Bienvenue {session.user?.name}</p>
                         <p>Email: {session.user?.email}</p>
-                        {session.user?.image && <Image src={session.user?.image} alt="" className="w-16 h-16 rounded-full"/> }
+                        {session.user?.image && <img src={session.user?.image} alt="" className="w-16 h-16 rounded-full"/> }
                     </div>
                 )}
             </main>
