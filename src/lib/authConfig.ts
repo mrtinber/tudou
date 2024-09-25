@@ -13,16 +13,22 @@ const googleId = process.env.GOOGLE_ID;
 const googleSecret = process.env.GOOGLE_SECRET;
 
 if (!githubId || !githubSecret || !googleId || !googleSecret) {
-    throw new Error("Missing GITHUB_ID or GITHUB_SECRET.")
+    throw new Error("Missing GITHUB_ID or GITHUB_SECRET.");
 } else {
-    console.log(githubId)
+    console.log(githubId);
 }
 
-export const authConfig : NextAuthOptions = {
-    providers : [
+export const authConfig: NextAuthOptions = {
+    providers: [
         Github({
             clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string,
+            authorization: {
+                params: {
+                    redirect_uri:
+                        "https://tudou-steel.vercel.app/api/auth/callback/github",
+                },
+            },
         }),
         Google({
             clientId: process.env.GOOGLE_ID as string,
@@ -31,14 +37,14 @@ export const authConfig : NextAuthOptions = {
         Email({
             from: process.env.EMAIL_FROM as string,
             server: {
-                host: process.env.SMTP_HOST as string, 
+                host: process.env.SMTP_HOST as string,
                 port: Number(process.env.SMTP_PORT),
                 auth: {
                     user: process.env.SMTP_USER as string,
                     pass: process.env.SMTP_PASSWORD as string,
-                }
-            }
-        })
+                },
+            },
+        }),
     ],
     adapter: PrismaAdapter(prisma) as Adapter,
-}
+};
