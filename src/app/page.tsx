@@ -1,3 +1,5 @@
+"use server";
+
 import { getServerSession } from "next-auth";
 import Dashboard from "./_components/Dashboard";
 import Header from "./_components/Header";
@@ -13,14 +15,21 @@ export default async function Home() {
             <Header />
             <main className="w-1/2 m-auto">
                 <Dashboard />
-                <LoginButton />
-                <LogoutButton />
-                {session && (
+                {session ? (
                     <div>
                         <p>Bienvenue {session.user?.name}</p>
                         <p>Email: {session.user?.email}</p>
-                        {session.user?.image && <img src={session.user?.image} alt="" className="w-16 h-16 rounded-full"/> }
+                        {session.user?.image && (
+                            <img
+                                src={session.user?.image}
+                                alt=""
+                                className="w-16 h-16 rounded-full"
+                            />
+                        )}
+                        <LogoutButton />
                     </div>
+                ) : (
+                    <LoginButton />
                 )}
             </main>
         </>

@@ -23,12 +23,12 @@ export const authConfig: NextAuthOptions = {
         Github({
             clientId: process.env.GITHUB_ID as string,
             clientSecret: process.env.GITHUB_SECRET as string,
-            authorization: {
-                params: {
-                    redirect_uri:
-                        "https://tudou-steel.vercel.app/api/auth/callback/github",
-                },
-            },
+            // authorization: {
+            //     params: {
+            //         redirect_uri:
+            //             "https://tudou-steel.vercel.app/api/auth/callback/github",
+            //     },
+            // },
         }),
         Google({
             clientId: process.env.GOOGLE_ID as string,
@@ -47,14 +47,14 @@ export const authConfig: NextAuthOptions = {
         }),
     ],
     adapter: PrismaAdapter(prisma) as Adapter,
-    cookies: {
-        sessionToken: {
-            name: `__Secure-next-auth.session-token`,
-            options: {
-                httpOnly: true,
-                sameSite: "none", // ou 'Lax', ou 'Strict' selon ton besoin
-                secure: true,
-            },
-        },
-    },
+    // cookies: {
+    //     sessionToken: {
+    //         name: `__Secure-next-auth.session-token`,
+    //         options: {
+    //             httpOnly: true,
+    //             sameSite: "none", // ou 'Lax', ou 'Strict' selon ton besoin
+    //             secure: true,
+    //         },
+    //     },
+    // },
 };
