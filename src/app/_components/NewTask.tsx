@@ -15,7 +15,7 @@ export interface Task {
     difficultyLevel: number;
     days: string[];
     isAchieved: boolean;
-    userId: string;
+    userId?: string;
 }
 
 export default function NewTask({ setTasks }: Props) {  

@@ -28,3 +28,11 @@ export async function getTodos(id: string) {
         where: {userId: id}
     })
 }
+
+export async function deleteTodo(idToDelete: string) {
+    await prisma.todo.delete({
+        where: {id: idToDelete}
+    });
+
+    revalidatePath('/')
+}

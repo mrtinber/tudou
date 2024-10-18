@@ -4,12 +4,16 @@ import { useState } from "react";
 import TaskList from "./TaskList";
 import NewTask, { Task } from "./NewTask";
 
-export default function Dashboard() {
+type DashboardProps = {
+    taskList: Task[],
+}
+
+export default function Dashboard({ taskList }: DashboardProps) {
     const [tasks, setTasks] = useState<Task[]>([]);
 
     return (
         <div className="flex flex-col gap-4">
-            <TaskList tasks={tasks} setTasks={setTasks} />
+            <TaskList tasks={taskList} setTasks={setTasks} />
             <NewTask setTasks={setTasks} />
         </div>
     );

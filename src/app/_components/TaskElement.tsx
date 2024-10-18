@@ -49,7 +49,7 @@ export default function TaskElement({
 
     useEffect(() => {
         handleToggleAchieved();
-    }, [isCompleted, handleToggleAchieved])
+    }, [isCompleted])
 
     return (
         <div className="px-2 py-1 bg-slate-50 rounded-full text-black flex items-center justify-between">

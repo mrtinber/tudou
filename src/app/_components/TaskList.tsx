@@ -1,3 +1,4 @@
+import { deleteTodo } from "@/actions/actions";
 import { Task } from "./NewTask";
 import TaskElement from "./TaskElement";
 
@@ -7,8 +8,9 @@ type TaskListProps = {
 };
 
 export default function TaskList({ tasks, setTasks }: TaskListProps) {
-    const handleDelete = (indexToDelete: number) => {
-        setTasks(tasks.filter((_, index) => index !== indexToDelete));
+    async function handleDelete (indexToDelete: string) {
+        // setTasks(tasks.filter((_, index) => index !== indexToDelete));
+        await deleteTodo(indexToDelete)
     };
 
     const handleToggleAchieved = (index: number) => {
@@ -33,8 +35,8 @@ export default function TaskList({ tasks, setTasks }: TaskListProps) {
                                 importanceLevel={task.importanceLevel}
                                 difficultyLevel={task.difficultyLevel}
                                 days={task.days ? task.days : []}
-                                key={index}
-                                onDelete={() => handleDelete(index)}
+                                key={task.id}
+                                onDelete={() => handleDelete(task.id ? task.id : "")}
                                 isAchieved={task.isAchieved}
                                 handleToggleAchieved={() =>
                                     handleToggleAchieved(index)

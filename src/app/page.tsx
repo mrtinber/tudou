@@ -21,7 +21,7 @@ export default async function Home() {
         <>
             <Header />
             <main className="w-1/2 m-auto">
-                <Dashboard />
+                <Dashboard taskList={userTodos}/>
                 {session ? (
                     <div>
                         <p>Bienvenue {session.user?.name}</p>
@@ -33,12 +33,12 @@ export default async function Home() {
                                 className="w-16 h-16 rounded-full"
                             />
                         )}
-                        <p>Ma liste: </p>
+                        {/* <p>Ma liste: </p>
                         <ul>
                             {userTodos.map((todo: Task) => (
                                 <li key={todo.id}>{todo.content}</li>
                             ))}
-                        </ul>
+                        </ul> */}
                         <LogoutButton />
                     </div>
                 ) : (
