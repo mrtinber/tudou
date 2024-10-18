@@ -1,5 +1,7 @@
 "use client";
 
+import { createTask } from "@/actions/actions";
+import { getSession } from "next-auth/react";
 import { useState } from "react";
 
 type Props = {
@@ -7,40 +9,72 @@ type Props = {
 };
 
 export interface Task {
+    id?: string;
     content: string;
     importanceLevel: number;
     difficultyLevel: number;
     days: string[];
     isAchieved: boolean;
+    userId: string;
 }
 
-export default function NewTask({ setTasks }: Props) {
+export default function NewTask({ setTasks }: Props) {  
+    
     const [newTask, setNewTask] = useState<Task>({
         content: "",
         difficultyLevel: 3,
         importanceLevel: 3,
         days: [],
         isAchieved: false,
+        userId: '',
     });
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
-    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        const session = await getSession();
+        if (!session) {
+          console.error("User is not authenticated");
+          return;
+        } else {
+            console.log("User is connected.", session.user.id)
+        }
 
         if (newTask.content.trim() === "") return;
 
         console.log("New task submitted.");
-        setTasks((prev) => [...prev, newTask]);
-        setNewTask({
-            content: "",
-            difficultyLevel: 3,
-            importanceLevel: 3,
-            days: [],
-            isAchieved: false,
-        });
-        setSelectedDays([]);
 
-        event.currentTarget.reset();
+        const formData = new FormData();
+        formData.append("content", newTask.content);
+        formData.append("difficultyLevel", newTask.difficultyLevel.toString());
+        formData.append("importanceLevel", newTask.importanceLevel.toString());
+        selectedDays.forEach(day => formData.append("daysSelect", day));
+        formData.append("isAchieved", newTask.isAchieved.toString());
+        formData.append("user", session.user.id);
+        
+        try {
+            // On appelle l'action, qui gère la création de la tâche et la manipulation d'état
+            const updatedTasks = await createTask(formData);
+      
+            // On met à jour l'état avec les tâches renvoyées par l'action
+            setTasks((prev) => [...prev, newTask]);
+      
+            // Réinitialiser le formulaire
+            setNewTask({
+              content: "",
+              difficultyLevel: 3,
+              importanceLevel: 3,
+              days: [],
+              isAchieved: false,
+              userId: "",
+            });
+            setSelectedDays([]);
+          } catch (error) {
+            console.error("Error creating task:", error);
+          }
+
+        // event.currentTarget.reset();
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +111,6 @@ export default function NewTask({ setTasks }: Props) {
     return (
         <>
             <form
-                action=""
                 onSubmit={handleSubmit}
                 className="mx-auto w-full flex flex-col gap-4 bg-stone-900 px-8 py-4 rounded-xl"
             >
@@ -86,7 +119,7 @@ export default function NewTask({ setTasks }: Props) {
                     <input
                         type="text"
                         id="newTask"
-                        name="New task"
+                        name="content"
                         placeholder="Type something..."
                         value={newTask.content}
                         className="w-full py-1 px-2 text-black rounded-md"

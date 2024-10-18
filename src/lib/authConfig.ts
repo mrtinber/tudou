@@ -57,4 +57,21 @@ export const authConfig: NextAuthOptions = {
     //         },
     //     },
     // },
+    callbacks: {
+        async session({ session, token }) {
+            // Récupérer l'utilisateur complet via Prisma, y compris ses champs supplémentaires
+            const userFromDB = await prisma.user.findUnique({
+                where: { email: session.user.email }, // ou id si tu as l'ID
+              });
+
+            if (userFromDB && session.user) {
+                session.user.id = userFromDB.id;
+                session.user.emailVerified = userFromDB.emailVerified;
+                session.user
+                // Ajoutez d'autres champs si nécessaire
+            }
+
+            return session; // Retourne la session mise à jour
+        },
+    },
 };
