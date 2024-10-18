@@ -55,7 +55,7 @@ export default function NewTask({ setTasks }: Props) {
         
         try {
             // On appelle l'action, qui gère la création de la tâche et la manipulation d'état
-            const updatedTasks = await createTask(formData);
+            await createTask(formData);
       
             // On met à jour l'état avec les tâches renvoyées par l'action
             setTasks((prev) => [...prev, newTask]);

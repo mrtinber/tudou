@@ -8,10 +8,10 @@ type TaskListProps = {
 };
 
 export default function TaskList({ tasks, setTasks }: TaskListProps) {
-    async function handleDelete (indexToDelete: string) {
+    async function handleDelete(indexToDelete: string) {
         // setTasks(tasks.filter((_, index) => index !== indexToDelete));
-        await deleteTodo(indexToDelete)
-    };
+        await deleteTodo(indexToDelete);
+    }
 
     const handleToggleAchieved = (index: number) => {
         setTasks((prevTasks) =>
@@ -31,12 +31,14 @@ export default function TaskList({ tasks, setTasks }: TaskListProps) {
                     <div className="bg-stone-600 px-8 py-4 rounded-xl flex flex-col gap-2">
                         {tasks.map((task, index) => (
                             <TaskElement
+                                key={task.id}
                                 content={task.content}
                                 importanceLevel={task.importanceLevel}
                                 difficultyLevel={task.difficultyLevel}
                                 days={task.days ? task.days : []}
-                                key={task.id}
-                                onDelete={() => handleDelete(task.id ? task.id : "")}
+                                onDelete={() =>
+                                    handleDelete(task.id ? task.id : "")
+                                }
                                 isAchieved={task.isAchieved}
                                 handleToggleAchieved={() =>
                                     handleToggleAchieved(index)
