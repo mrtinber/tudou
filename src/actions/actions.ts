@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 
 export async function createTask(formData: FormData) {
 
-    await prisma.todo.create({
+    const newTask = await prisma.todo.create({
         data: {
             content: formData.get("content") as string,
             difficultyLevel: Number(formData.get("difficultyLevel")),
@@ -20,7 +20,9 @@ export async function createTask(formData: FormData) {
         },
     });
 
-    revalidatePath('/');
+    revalidatePath('/', 'page');
+
+    return newTask;
 }
 
 export async function getTodos(id: string) {
@@ -34,5 +36,5 @@ export async function deleteTodo(idToDelete: string) {
         where: {id: idToDelete}
     });
 
-    revalidatePath('/')
+    revalidatePath('/', 'page')
 }

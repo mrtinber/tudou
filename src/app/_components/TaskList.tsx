@@ -11,6 +11,8 @@ export default function TaskList({ tasks, setTasks }: TaskListProps) {
     async function handleDelete(indexToDelete: string) {
         // setTasks(tasks.filter((_, index) => index !== indexToDelete));
         await deleteTodo(indexToDelete);
+
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== indexToDelete));
     }
 
     const handleToggleAchieved = (index: number) => {
