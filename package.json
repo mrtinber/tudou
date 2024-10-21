@@ -13,6 +13,7 @@
     "@auth/prisma-adapter": "^2.5.0",
     "@prisma/client": "^5.20.0",
     "@supabase/supabase-js": "^2.45.4",
+    "@types/dom-speech-recognition": "^0.0.4",
     "next": "14.2.13",
     "next-auth": "^4.24.7",
     "nodemailer": "^6.9.15",

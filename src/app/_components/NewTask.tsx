@@ -18,15 +18,14 @@ export interface Task {
     userId?: string;
 }
 
-export default function NewTask({ setTasks }: Props) {  
-    
+export default function NewTask({ setTasks }: Props) {
     const [newTask, setNewTask] = useState<Task>({
         content: "",
         difficultyLevel: 3,
         importanceLevel: 3,
         days: [],
         isAchieved: false,
-        userId: '',
+        userId: "",
     });
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
@@ -35,10 +34,10 @@ export default function NewTask({ setTasks }: Props) {
 
         const session = await getSession();
         if (!session) {
-          console.error("User is not authenticated");
-          return;
+            console.error("User is not authenticated");
+            return;
         } else {
-            console.log("User is connected.", session.user.id)
+            console.log("User is connected.", session.user.id);
         }
 
         if (newTask.content.trim() === "") return;
@@ -49,30 +48,30 @@ export default function NewTask({ setTasks }: Props) {
         formData.append("content", newTask.content);
         formData.append("difficultyLevel", newTask.difficultyLevel.toString());
         formData.append("importanceLevel", newTask.importanceLevel.toString());
-        selectedDays.forEach(day => formData.append("daysSelect", day));
+        selectedDays.forEach((day) => formData.append("daysSelect", day));
         formData.append("isAchieved", newTask.isAchieved.toString());
         formData.append("user", session.user.id);
-        
+
         try {
             // On appelle l'action, qui gère la création de la tâche et la manipulation d'état
             const createdTask = await createTask(formData);
-      
+
             // On met à jour l'état avec les tâches renvoyées par l'action
             setTasks((prev) => [...prev, createdTask]);
-      
+
             // Réinitialiser le formulaire
             setNewTask({
-              content: "",
-              difficultyLevel: 3,
-              importanceLevel: 3,
-              days: [],
-              isAchieved: false,
-              userId: "",
+                content: "",
+                difficultyLevel: 3,
+                importanceLevel: 3,
+                days: [],
+                isAchieved: false,
+                userId: "",
             });
             setSelectedDays([]);
-          } catch (error) {
+        } catch (error) {
             console.error("Error creating task:", error);
-          }
+        }
 
         // event.currentTarget.reset();
     }
@@ -108,6 +107,20 @@ export default function NewTask({ setTasks }: Props) {
         }));
     };
 
+    const handleRecord = () => {
+        const SpeechRecognition =
+            window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+
+        recognition.onresult = async function (event) {
+            const transcript = event.results[0][0].transcript;
+            console.log("La transcription: ", transcript);
+            setNewTask((prev) => ({ ...prev, content: transcript }));
+        };
+
+        recognition.start();
+    }
+
     return (
         <>
             <form
@@ -125,6 +138,12 @@ export default function NewTask({ setTasks }: Props) {
                         className="w-full py-1 px-2 text-black rounded-md"
                         onChange={handleChange}
                     />
+                    <button
+                        onClick={handleRecord}
+                        className="text-white bg-[#0245A2] disabled:bg-gray-500 hover:bg-[#CC2E38] focus:ring-4 focus:ring-blue-300"
+                    >
+                        Record
+                    </button>
                 </div>
 
                 <div className="flex flex-col gap-2">
@@ -206,7 +225,10 @@ export default function NewTask({ setTasks }: Props) {
                     </div>
                 </div>
 
-                <button type="submit" className="bg-slate-700 rounded-md w-72 mx-auto">
+                <button
+                    type="submit"
+                    className="bg-slate-700 rounded-md w-72 mx-auto"
+                >
                     Create new task
                 </button>
             </form>
