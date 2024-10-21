@@ -4,7 +4,6 @@ import prisma from "@/app/lib/prisma";
 import { revalidatePath } from "next/cache";
 
 export async function createTask(formData: FormData) {
-
     const newTask = await prisma.todo.create({
         data: {
             content: formData.get("content") as string,
@@ -20,21 +19,40 @@ export async function createTask(formData: FormData) {
         },
     });
 
-    revalidatePath('/', 'page');
+    revalidatePath("/", "page");
 
     return newTask;
 }
 
 export async function getTodos(id: string) {
     return await prisma.todo.findMany({
-        where: {userId: id}
-    })
+        where: { userId: id },
+    });
 }
 
 export async function deleteTodo(idToDelete: string) {
     await prisma.todo.delete({
-        where: {id: idToDelete}
+        where: { id: idToDelete },
     });
 
-    revalidatePath('/', 'page')
+    revalidatePath("/", "page");
+}
+
+export async function handleAchievement(idToToggle: string, isAchievedFromUI: boolean) {
+    const todo = await prisma.todo.findUnique({
+        where: { id: idToToggle },
+    });
+
+    if (!todo) {
+        throw new Error("Todo not found.");
+    }
+
+    await prisma.todo.update({
+        where: { id: idToToggle },
+        data: {
+            isAchieved: isAchievedFromUI,
+        },
+    });
+
+    revalidatePath("/", "page");
 }

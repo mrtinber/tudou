@@ -14,7 +14,7 @@ export default async function Home() {
 
     if(session) {
         userTodos = await getTodos(session.user.id)
-        console.log(userTodos)
+        console.log('Fetched todos:', userTodos)
     }
 
     return (

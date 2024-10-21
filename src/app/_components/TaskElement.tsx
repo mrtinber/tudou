@@ -10,7 +10,7 @@ import { Task } from "./NewTask";
 
 type TaskElementProps = Task & {
     onDelete: () => void;
-    handleToggleAchieved: () => void;
+    handleToggleAchieved: (isAchieved: boolean) => void;
 };
 
 export default function TaskElement({
@@ -19,14 +19,20 @@ export default function TaskElement({
     difficultyLevel,
     days,
     onDelete,
-    isAchieved, 
+    isAchieved,
     handleToggleAchieved,
 }: TaskElementProps) {
     const [isCompleted, setIsCompleted] = useState(isAchieved);
-    const [achievedDays, setAchievedDays] = useState<string[]>([]);
+    const [achievedDays, setAchievedDays] = useState<string[]>(isAchieved ? days : []);
 
     const toggleTask = () => {
-        setIsCompleted(!isCompleted);
+        const newState = !isCompleted;
+        setIsCompleted(newState);
+        if (newState) {
+            setAchievedDays(days);
+        } else {
+            setAchievedDays([]);
+        }
     };
 
     const handleAchievement = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,10 +43,14 @@ export default function TaskElement({
     };
 
     useEffect(() => {
-        if (
-            achievedDays.length > 0 &&
-            days.every((day) => achievedDays.includes(day))
-        ) {
+        // Initialisation unique lors du premier chargement si la tâche est déjà accomplie
+        if (isAchieved) {
+            return;
+        }
+    }, [isAchieved]);
+
+    useEffect(() => {
+        if (achievedDays.length > 0 && days.every((day) => achievedDays.includes(day))) {
             setIsCompleted(true);
         } else {
             setIsCompleted(false);
@@ -48,8 +58,8 @@ export default function TaskElement({
     }, [achievedDays, days]);
 
     useEffect(() => {
-        handleToggleAchieved();
-    }, [isCompleted])
+        handleToggleAchieved(isCompleted);
+    }, [isCompleted]);
 
     return (
         <div className="px-2 py-1 bg-slate-50 rounded-full text-black flex items-center justify-between">
@@ -108,6 +118,7 @@ export default function TaskElement({
                                 name="daysSelect"
                                 value={day}
                                 onChange={handleAchievement}
+                                checked={achievedDays.includes(day)}
                                 className="hidden"
                             />
                             {day}

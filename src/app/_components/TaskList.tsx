@@ -1,4 +1,4 @@
-import { deleteTodo } from "@/actions/actions";
+import { deleteTodo, handleAchievement } from "@/actions/actions";
 import { Task } from "./NewTask";
 import TaskElement from "./TaskElement";
 
@@ -9,16 +9,17 @@ type TaskListProps = {
 
 export default function TaskList({ tasks, setTasks }: TaskListProps) {
     async function handleDelete(indexToDelete: string) {
-        // setTasks(tasks.filter((_, index) => index !== indexToDelete));
         await deleteTodo(indexToDelete);
 
         setTasks((prevTasks) => prevTasks.filter((task) => task.id !== indexToDelete));
     }
 
-    const handleToggleAchieved = (index: number) => {
+    async function handleToggleAchieved (idToToggle: string, isAchieved: boolean) {
+        await handleAchievement(idToToggle, isAchieved);
+
         setTasks((prevTasks) =>
-            prevTasks.map((task, i) =>
-                i === index ? { ...task, isAchieved: !task.isAchieved } : task
+            prevTasks.map((task) =>
+                task.id === idToToggle ? { ...task, isAchieved } : task
             )
         );
     };
@@ -31,7 +32,7 @@ export default function TaskList({ tasks, setTasks }: TaskListProps) {
             {tasks.length > 0 && (
                 <>
                     <div className="bg-stone-600 px-8 py-4 rounded-xl flex flex-col gap-2">
-                        {tasks.map((task, index) => (
+                        {tasks.map((task) => (
                             <TaskElement
                                 key={task.id}
                                 content={task.content}
@@ -42,9 +43,7 @@ export default function TaskList({ tasks, setTasks }: TaskListProps) {
                                     handleDelete(task.id ? task.id : "")
                                 }
                                 isAchieved={task.isAchieved}
-                                handleToggleAchieved={() =>
-                                    handleToggleAchieved(index)
-                                }
+                                handleToggleAchieved={(newState: boolean) => handleToggleAchieved(task.id ? task.id : "", newState)}
                             />
                         ))}
                         <div className="flex gap-2 items-center">
