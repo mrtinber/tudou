@@ -1,9 +1,7 @@
 import { getServerSession } from "next-auth";
 import Dashboard from "./_components/Dashboard";
 import Header from "./_components/Header";
-import LoginButton from "./_components/LoginButton";
 import { authConfig } from "@/lib/authConfig";
-import LogoutButton from "./_components/LogoutButton";
 import { getTodos } from "@/actions/actions";
 import { Task } from "./_components/NewTask";
 
@@ -19,31 +17,9 @@ export default async function Home() {
 
     return (
         <>
-            <Header />
-            <main className="w-1/2 m-auto">
+            <Header session={session}/>
+            <main className="w-[90%] m-auto mt-8">
                 <Dashboard taskList={userTodos}/>
-                {session ? (
-                    <div>
-                        <p>Bienvenue {session.user?.name}</p>
-                        <p>Email: {session.user?.email}</p>
-                        {session.user?.image && (
-                            <img
-                                src={session.user?.image}
-                                alt=""
-                                className="w-16 h-16 rounded-full"
-                            />
-                        )}
-                        {/* <p>Ma liste: </p>
-                        <ul>
-                            {userTodos.map((todo: Task) => (
-                                <li key={todo.id}>{todo.content}</li>
-                            ))}
-                        </ul> */}
-                        <LogoutButton />
-                    </div>
-                ) : (
-                    <LoginButton />
-                )}
             </main>
         </>
     );

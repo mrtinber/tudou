@@ -3,9 +3,11 @@
 import { createTask } from "@/actions/actions";
 import { getSession } from "next-auth/react";
 import { useState } from "react";
+import { FaMicrophone } from "react-icons/fa6";
 
 type Props = {
-    setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+    setTasks: React.Dispatch<React.SetStateAction<Task[]>>,
+    className: string,
 };
 
 export interface Task {
@@ -18,7 +20,7 @@ export interface Task {
     userId?: string;
 }
 
-export default function NewTask({ setTasks }: Props) {
+export default function NewTask({ setTasks, className }: Props) {
     const [newTask, setNewTask] = useState<Task>({
         content: "",
         difficultyLevel: 3,
@@ -125,25 +127,27 @@ export default function NewTask({ setTasks }: Props) {
         <>
             <form
                 onSubmit={handleSubmit}
-                className="mx-auto w-full flex flex-col gap-4 bg-stone-900 px-8 py-4 rounded-xl"
+                className={`mx-auto w-full flex flex-col gap-4 bg-stone-900 px-8 py-4 rounded-xl ${className}`}
             >
                 <div className="w-full flex flex-col gap-2">
                     <label htmlFor="newTask">New Task</label>
-                    <input
-                        type="text"
-                        id="newTask"
-                        name="content"
-                        placeholder="Type something..."
-                        value={newTask.content}
-                        className="w-full py-1 px-2 text-black rounded-md"
-                        onChange={handleChange}
-                    />
-                    <button
-                        onClick={handleRecord}
-                        className="text-white bg-[#0245A2] disabled:bg-gray-500 hover:bg-[#CC2E38] focus:ring-4 focus:ring-blue-300"
-                    >
-                        Record
-                    </button>
+                    <div className="flex gap-2">
+                        <input
+                            type="text"
+                            id="newTask"
+                            name="content"
+                            placeholder="Type something..."
+                            value={newTask.content}
+                            className="w-full py-1 px-4 text-black rounded-full"
+                            onChange={handleChange}
+                        />
+                        <button
+                            onClick={handleRecord}
+                            className="text-white bg-slate-700 disabled:bg-gray-500 hover:bg-red-400 hover:scale-105 focus:ring-4 focus:ring-blue-300 rounded-full px-2 transition-all duration-300"
+                        >
+                            <FaMicrophone />
+                        </button>
+                    </div>
                 </div>
 
                 <div className="flex flex-col gap-2">
@@ -161,7 +165,7 @@ export default function NewTask({ setTasks }: Props) {
                             <label
                                 key={day}
                                 htmlFor={`daysSelect-${day}`}
-                                className={`rounded-full px-4 py-1 cursor-pointer ${
+                                className={`rounded-full px-4 py-1 cursor-pointer hover:scale-105 transition-all duration-300 ${
                                     selectedDays.includes(day)
                                         ? "bg-slate-800"
                                         : "bg-slate-600"
@@ -227,7 +231,8 @@ export default function NewTask({ setTasks }: Props) {
 
                 <button
                     type="submit"
-                    className="bg-slate-700 rounded-md w-72 mx-auto"
+                    className="rounded-full w-72 py-2 mx-auto border-2 border-slate-700 hover:bg-slate-700 translation-all duration-300"
+                    // className="inline-flex items-center justify-center px-4 py-[calc(theme(spacing.2)-1px)] rounded-full border border-transparent bg-gray-950 shadow-md whitespace-nowrap text-base font-medium text-white data-[disabled]:bg-gray-950 data-[hover]:bg-gray-800 data-[disabled]:opacity-40"
                 >
                     Create new task
                 </button>

@@ -62,7 +62,7 @@ export default function TaskElement({
     }, [isCompleted]);
 
     return (
-        <div className="px-2 py-1 bg-slate-50 rounded-full text-black flex items-center justify-between">
+        <div className="px-2 py-1 bg-slate-50 rounded-full text-black flex items-center justify-between hover:scale-[101%] transition-all duration-300">
             <div className="flex gap-4 items-center">
                 {isCompleted ? (
                     <FaRegCheckCircle
@@ -107,7 +107,7 @@ export default function TaskElement({
                     {days.map((day, index) => (
                         <label
                             key={index}
-                            className={`rounded-full px-2 text-sm text-white ${
+                            className={`rounded-full px-2 text-sm text-white cursor-pointer ${
                                 achievedDays.includes(day)
                                     ? "bg-blue-300 line-through"
                                     : "bg-blue-500"
@@ -127,7 +127,7 @@ export default function TaskElement({
                 </div>
             </div>
             <FaRegTimesCircle
-                className="hover:scale-110 transition-all duration-500 text-red-500"
+                className="hover:scale-110 transition-all duration-500 text-red-500 cursor-pointer"
                 onClick={onDelete}
             />
         </div>

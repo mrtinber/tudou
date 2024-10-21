@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 export default function LoginButton() {
     return (
         <button
-            className="bg-green-400 text-white rounded-lg p-2"
+            className="text-white rounded-full py-2 px-4 border-green-400 border-2 hover:bg-green-400 transition-all duration-300"
             onClick={async () => {
                 await signIn();
             }}

@@ -12,9 +12,9 @@ export default function Dashboard({ taskList }: DashboardProps) {
     const [tasks, setTasks] = useState<Task[]>(taskList);
 
     return (
-        <div className="flex flex-col gap-4">
-            <TaskList tasks={tasks} setTasks={setTasks} />
-            <NewTask setTasks={setTasks} />
+        <div className="flex gap-4">
+            <NewTask setTasks={setTasks} className="w-1/3"/>
+            <TaskList tasks={tasks} setTasks={setTasks} className="w-2/3" />
         </div>
     );
 }

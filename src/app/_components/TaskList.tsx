@@ -5,9 +5,10 @@ import TaskElement from "./TaskElement";
 type TaskListProps = {
     tasks: Task[];
     setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+    className: string;
 };
 
-export default function TaskList({ tasks, setTasks }: TaskListProps) {
+export default function TaskList({ tasks, setTasks, className }: TaskListProps) {
     async function handleDelete(indexToDelete: string) {
         await deleteTodo(indexToDelete);
 
@@ -31,7 +32,7 @@ export default function TaskList({ tasks, setTasks }: TaskListProps) {
         <>
             {tasks.length > 0 && (
                 <>
-                    <div className="bg-stone-600 px-8 py-4 rounded-xl flex flex-col gap-2">
+                    <div className={`px-8 py-4 rounded-xl flex flex-col gap-2 ${className}`}>
                         {tasks.map((task) => (
                             <TaskElement
                                 key={task.id}
