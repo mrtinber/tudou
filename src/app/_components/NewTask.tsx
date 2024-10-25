@@ -174,7 +174,7 @@ export default function NewTask({ setTasks, className }: Props) {
                         <button
                             onClick={handleRecord}
                             aria-label="Start recording"
-                            className="text-foreground bg-primary disabled:bg-secondary hover:bg-destructive hover:scale-105 focus:ring-4 focus:ring-primary/50 rounded-full px-2 transition-all duration-300"
+                            className="bg-primary text-primary-foreground disabled:bg-secondary hover:bg-destructive hover:text-destructive-foreground hover:scale-105 focus:ring-4 focus:ring-primary/50 rounded-full px-2 transition-all duration-300"
                         >
                             <FaMicrophone />
                         </button>
@@ -203,7 +203,7 @@ export default function NewTask({ setTasks, className }: Props) {
                             <label
                                 key={day}
                                 htmlFor={`daysSelect-${day}`}
-                                className={`rounded-full px-4 py-1 cursor-pointer hover:scale-105 transition-all duration-300 ${
+                                className={`rounded-full px-4 py-1 cursor-pointer hover:scale-105 transition-all duration-300 text-primary-foreground ${
                                     selectedDays.includes(day)
                                         ? "bg-primary"
                                         : "bg-primary/50"
@@ -282,8 +282,7 @@ export default function NewTask({ setTasks, className }: Props) {
                 <button
                     type="submit"
                     aria-label="Create new task and add it to the list"
-                    className="rounded-full w-60 xl:w-72 py-2 mx-auto border-2 border-primary hover:bg-primary translation-all duration-300"
-                    // className="inline-flex items-center justify-center px-4 py-[calc(theme(spacing.2)-1px)] rounded-full border border-transparent bg-gray-950 shadow-md whitespace-nowrap text-base font-medium text-white data-[disabled]:bg-gray-950 data-[hover]:bg-gray-800 data-[disabled]:opacity-40"
+                    className="rounded-full w-60 xl:w-72 py-2 mx-auto border-2 border-primary hover:bg-primary hover:text-primary-foreground translation-all duration-300"
                 >
                     Create new task
                 </button>

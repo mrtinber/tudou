@@ -6,7 +6,7 @@ import { FaSignOutAlt } from "react-icons/fa";
 export default function LogoutButton() {
     return (
         <button
-            className="text-destructive-foreground text-sm rounded-full py-2 px-4 border-destructive border-2 hover:bg-destructive transition-all duration-300"
+            className="text-foreground hover:text-destructive-foreground text-sm rounded-full py-2 px-4 border-destructive border-2 hover:bg-destructive transition-all duration-300"
             onClick={async () => {
                 await signOut();
             }}

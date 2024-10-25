@@ -84,7 +84,7 @@ export default function TaskElement({
     return (
         <div
             tabIndex={0}
-            className="px-2 py-1 bg-foreground rounded-full text-background flex items-center justify-between hover:scale-[101%] transition-all duration-300"
+            className="px-2 py-1 bg-secondary rounded-full text-accent-foreground flex items-center justify-between hover:bg-secondary/60 transition-all duration-300"
         >
             <div className="flex gap-4 items-center">
                 {isCompleted ? (
@@ -113,8 +113,8 @@ export default function TaskElement({
                 >
                     {content}
                 </p>
-                <div tabIndex={0} className="hidden md:block text-sm font-bold text-primary brightness-[70%]">
-                    <span className="hidden lg:inline">Difficulty:</span>{" "}
+                <div tabIndex={0} className="hidden md:block text-xs border-2 border-foreground px-2 rounded-full font-bold">
+                    {/* <span className="hidden lg:inline">Difficulty:</span>{" "} */}
                     {difficultyLevel === 5
                         ? "Epic"
                         : difficultyLevel === 4
@@ -125,7 +125,7 @@ export default function TaskElement({
                         ? "Easy"
                         : "Effortless"}
                 </div>
-                <div tabIndex={0} className="hidden md:block text-sm font-bold text-primary">
+                <div tabIndex={0} className="hidden md:block text-xs border-2 border-foreground px-2 rounded-full font-bold">
                     {/* <span className="hidden lg:inline">Importance:</span>{" "} */}
                     {importanceLevel === 5
                         ? "Urgent"
@@ -145,7 +145,7 @@ export default function TaskElement({
                         <label
                             key={index}
                             tabIndex={0}
-                            className={`hidden md:block rounded-full px-2 text-sm text-foreground cursor-pointer ${
+                            className={`hidden md:block rounded-full px-2 text-sm text-primary-foreground cursor-pointer ${
                                 achievedDays.includes(day)
                                     ? "bg-primary/50 line-through"
                                     : "bg-primary"
@@ -167,7 +167,7 @@ export default function TaskElement({
                 </fieldset>
             </div>
             <FaRegTimesCircle
-                className="hover:scale-110 transition-all duration-500 text-destructive cursor-pointer"
+                className="hover:scale-110 transition-all duration-500 hover:text-destructive cursor-pointer"
                 onClick={onDelete}
                 tabIndex={0}
                 aria-label="Delete task"

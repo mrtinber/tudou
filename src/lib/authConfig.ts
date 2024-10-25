@@ -11,10 +11,10 @@ const githubSecret = process.env.GITHUB_SECRET;
 const googleId = process.env.GOOGLE_ID;
 const googleSecret = process.env.GOOGLE_SECRET;
 
-if (!githubId || !githubSecret || !googleId || !googleSecret) {
+if (!githubId || !githubSecret) {
     throw new Error("Missing GITHUB_ID or GITHUB_SECRET.");
-} else {
-    console.log(githubId);
+} else if (!googleId || !googleSecret) {
+    throw new Error("Missing GOOGLE_ID or GOOGLE_SECRET.");
 }
 
 export const authConfig: NextAuthOptions = {
