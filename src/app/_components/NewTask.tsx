@@ -127,7 +127,7 @@ export default function NewTask({ setTasks, className }: Props) {
         <>
             <form
                 onSubmit={handleSubmit}
-                className={`mx-auto w-full flex flex-col gap-4 bg-stone-900 px-8 py-4 rounded-xl ${className}`}
+                className={`mx-auto flex flex-col gap-4 bg-stone-900 px-4 md:px-8 py-4 rounded-xl ${className}`}
             >
                 <div className="w-full flex flex-col gap-2">
                     <label htmlFor="newTask">New Task</label>
@@ -231,7 +231,7 @@ export default function NewTask({ setTasks, className }: Props) {
 
                 <button
                     type="submit"
-                    className="rounded-full w-72 py-2 mx-auto border-2 border-slate-700 hover:bg-slate-700 translation-all duration-300"
+                    className="rounded-full w-60 xl:w-72 py-2 mx-auto border-2 border-slate-700 hover:bg-slate-700 translation-all duration-300"
                     // className="inline-flex items-center justify-center px-4 py-[calc(theme(spacing.2)-1px)] rounded-full border border-transparent bg-gray-950 shadow-md whitespace-nowrap text-base font-medium text-white data-[disabled]:bg-gray-950 data-[hover]:bg-gray-800 data-[disabled]:opacity-40"
                 >
                     Create new task

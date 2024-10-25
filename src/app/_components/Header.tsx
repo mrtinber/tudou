@@ -9,11 +9,11 @@ type HeaderProps = {
 
 export default function Header({ session }: HeaderProps) {
     return (
-        <header className="py-4 px-8 w-full flex justify-between items-center">
-            <div className="font-bold text-4xl font-sans">Tudou - ToDoList Maker</div>
+        <header className="py-4 md:px-8 w-[90%] m-auto md:w-full flex justify-between items-center">
+            <div className="font-bold text-4xl font-sans">Tudou <span className="hidden md:inline">- ToDoList Maker</span></div>
             {session ? (
                 <div className="flex items-center gap-4">
-                    <div className="font-light text-md">
+                    <div className="hidden md:block font-light text-md">
                         Welcome back, {session.user.name}
                     </div>
                     {session.user?.image && (

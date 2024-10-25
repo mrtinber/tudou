@@ -1,6 +1,7 @@
 "use client";
 
 import { signOut } from "next-auth/react";
+import { FaSignOutAlt } from "react-icons/fa";
 
 export default function LogoutButton() {
     return (
@@ -10,7 +11,8 @@ export default function LogoutButton() {
                 await signOut();
             }}
         >
-            Logout
+            <FaSignOutAlt className="md:hidden" size={16}/>
+            <span className="hidden md:block">Logout</span>
         </button>
     );
 }

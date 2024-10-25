@@ -79,8 +79,8 @@ export default function TaskElement({
                 <p className={isCompleted ? "line-through text-gray-400" : ""}>
                     {content}
                 </p>
-                <div className="text-sm font-bold text-blue-800">
-                    Difficulty:{" "}
+                <div className="hidden md:block text-sm font-bold text-blue-800">
+                    <span className="hidden lg:inline">Difficulty:</span>{" "}
                     {difficultyLevel === 5
                         ? "Epic"
                         : difficultyLevel === 4
@@ -91,8 +91,8 @@ export default function TaskElement({
                         ? "Easy"
                         : "Effortless"}
                 </div>
-                <div className="text-sm font-bold text-blue-400">
-                    Importance:{" "}
+                <div className="hidden md:block text-sm font-bold text-blue-400">
+                    {/* <span className="hidden lg:inline">Importance:</span>{" "} */}
                     {importanceLevel === 5
                         ? "Urgent"
                         : importanceLevel === 4
@@ -107,7 +107,7 @@ export default function TaskElement({
                     {days.map((day, index) => (
                         <label
                             key={index}
-                            className={`rounded-full px-2 text-sm text-white cursor-pointer ${
+                            className={`hidden md:block rounded-full px-2 text-sm text-white cursor-pointer ${
                                 achievedDays.includes(day)
                                     ? "bg-blue-300 line-through"
                                     : "bg-blue-500"
