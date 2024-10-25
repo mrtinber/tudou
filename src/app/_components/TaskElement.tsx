@@ -23,7 +23,9 @@ export default function TaskElement({
     handleToggleAchieved,
 }: TaskElementProps) {
     const [isCompleted, setIsCompleted] = useState(isAchieved);
-    const [achievedDays, setAchievedDays] = useState<string[]>(isAchieved ? days : []);
+    const [achievedDays, setAchievedDays] = useState<string[]>(
+        isAchieved ? days : []
+    );
 
     const toggleTask = () => {
         const newState = !isCompleted;
@@ -42,6 +44,21 @@ export default function TaskElement({
         );
     };
 
+    const handleKeyDownDays = (
+        event: React.KeyboardEvent<HTMLElement>,
+        day: string
+    ) => {
+        if (event.key === "Enter" || event.key === " ") {
+            const isChecked = achievedDays.includes(day);
+
+            setAchievedDays((prev) =>
+                isChecked ? prev.filter((d) => d !== day) : [...prev, day]
+            );
+
+            event.preventDefault();
+        }
+    };
+
     useEffect(() => {
         // Initialisation unique lors du premier chargement si la tâche est déjà accomplie
         if (isAchieved) {
@@ -50,7 +67,10 @@ export default function TaskElement({
     }, [isAchieved]);
 
     useEffect(() => {
-        if (achievedDays.length > 0 && days.every((day) => achievedDays.includes(day))) {
+        if (
+            achievedDays.length > 0 &&
+            days.every((day) => achievedDays.includes(day))
+        ) {
             setIsCompleted(true);
         } else {
             setIsCompleted(false);
@@ -62,24 +82,38 @@ export default function TaskElement({
     }, [isCompleted]);
 
     return (
-        <div className="px-2 py-1 bg-slate-50 rounded-full text-black flex items-center justify-between hover:scale-[101%] transition-all duration-300">
+        <div
+            tabIndex={0}
+            className="px-2 py-1 bg-foreground rounded-full text-background flex items-center justify-between hover:scale-[101%] transition-all duration-300"
+        >
             <div className="flex gap-4 items-center">
                 {isCompleted ? (
                     <FaRegCheckCircle
                         onClick={toggleTask}
-                        className="text-blue-500 cursor-pointer"
+                        tabIndex={0}
+                        aria-label="Mark task as incomplete"
+                        className="text-primary cursor-pointer"
+                        role="button"
+                        onKeyDown={(e) => {if(e.key === "Enter"){toggleTask()}}}
                     />
                 ) : (
                     <FaRegCircle
                         onClick={toggleTask}
+                        aria-label="Mark task as incomplete"
+                        tabIndex={0}
                         className="cursor-pointer"
+                        role="button"
+                        onKeyDown={(e) => {if(e.key === "Enter"){toggleTask()}}}
                     />
                 )}
 
-                <p className={isCompleted ? "line-through text-gray-400" : ""}>
+                <p
+                    className={isCompleted ? "line-through text-secondary-foreground" : ""}
+                    tabIndex={0}
+                >
                     {content}
                 </p>
-                <div className="hidden md:block text-sm font-bold text-blue-800">
+                <div tabIndex={0} className="hidden md:block text-sm font-bold text-primary brightness-[70%]">
                     <span className="hidden lg:inline">Difficulty:</span>{" "}
                     {difficultyLevel === 5
                         ? "Epic"
@@ -91,7 +125,7 @@ export default function TaskElement({
                         ? "Easy"
                         : "Effortless"}
                 </div>
-                <div className="hidden md:block text-sm font-bold text-blue-400">
+                <div tabIndex={0} className="hidden md:block text-sm font-bold text-primary">
                     {/* <span className="hidden lg:inline">Importance:</span>{" "} */}
                     {importanceLevel === 5
                         ? "Urgent"
@@ -103,15 +137,21 @@ export default function TaskElement({
                         ? "Can wait"
                         : "Optional"}
                 </div>
-                <div className="flex gap-2">
+                <fieldset className="flex gap-2">
+                    <legend className="hidden">
+                        Cross the days that you completed
+                    </legend>
                     {days.map((day, index) => (
                         <label
                             key={index}
-                            className={`hidden md:block rounded-full px-2 text-sm text-white cursor-pointer ${
+                            tabIndex={0}
+                            className={`hidden md:block rounded-full px-2 text-sm text-foreground cursor-pointer ${
                                 achievedDays.includes(day)
-                                    ? "bg-blue-300 line-through"
-                                    : "bg-blue-500"
+                                    ? "bg-primary/50 line-through"
+                                    : "bg-primary"
                             }`}
+                                role="button"
+                                onKeyDown={(event) => handleKeyDownDays(event, day)}
                         >
                             <input
                                 type="checkbox"
@@ -124,11 +164,15 @@ export default function TaskElement({
                             {day}
                         </label>
                     ))}
-                </div>
+                </fieldset>
             </div>
             <FaRegTimesCircle
-                className="hover:scale-110 transition-all duration-500 text-red-500 cursor-pointer"
+                className="hover:scale-110 transition-all duration-500 text-destructive cursor-pointer"
                 onClick={onDelete}
+                tabIndex={0}
+                aria-label="Delete task"
+                role="button"
+                onKeyDown={(e) => {if(e.key === "Enter"){onDelete()}}}
             />
         </div>
     );

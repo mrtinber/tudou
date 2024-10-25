@@ -49,13 +49,19 @@ export default function TaskList({ tasks, setTasks, className }: TaskListProps) 
                         ))}
                         <div className="flex gap-2 items-center">
                             <div className="w-full relative">
-                                <div className="w-full h-2 bg-slate-200 rounded-full absolute" />
+                                <div className="w-full h-2 bg-secondary rounded-full absolute" />
                                 <div
-                                    className="h-2 bg-slate-500 rounded-full absolute"
+                                    className="h-2 bg-primary rounded-full absolute"
                                     style={{ width: `${achievedPercentage}%` }}
+                                    aria-label={`You have achieved ${achievedPercentage}% of your tasks.`}
+                                    aria-live="polite"
+                                    role="progressbar"
+                                    aria-valuenow={achievedPercentage}
+                                    aria-valuemin={0}
+                                    aria-valuemax={100}
                                 />
                             </div>
-                            <p>{achievedPercentage}%</p>
+                            <p aria-live="polite">{achievedPercentage}%</p>
                         </div>
                     </div>
                 </>
