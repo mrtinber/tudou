@@ -13,10 +13,10 @@ export default function Dashboard({ taskList }: DashboardProps) {
 
     return (
         <div
-            className="flex flex-col lg:flex-row gap-4"
+            className="flex flex-col lg:flex-row gap-4 h-screen"
             aria-label="Task dashboard"
         >
-            <NewTask setTasks={setTasks} className="w-full lg:w-1/3" />
+            <NewTask setTasks={setTasks} className="w-full lg:w-1/3 h-[475px]" />
             <section
                 className="w-full lg:w-2/3"
                 aria-live="polite"

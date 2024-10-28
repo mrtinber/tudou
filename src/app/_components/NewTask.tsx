@@ -31,9 +31,12 @@ export default function NewTask({ setTasks, className }: Props) {
         userId: "",
     });
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
+        setIsLoading(true);
 
         const session = await getSession();
         if (!session) {
@@ -75,6 +78,8 @@ export default function NewTask({ setTasks, className }: Props) {
         } catch (error) {
             console.error("Error creating task:", error);
         }
+
+        setIsLoading(false);
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -233,14 +238,19 @@ export default function NewTask({ setTasks, className }: Props) {
                     <br />
                     <div className="flex gap-2">
                         <span>Low</span>
-                        <Slider 
+                        <Slider
                             id="importanceLevel"
                             name="importanceLevel"
                             min={1}
                             max={5}
                             step={1}
                             value={[newTask.importanceLevel]}
-                            onValueChange={(value) => setNewTask((prev) => ({ ...prev, importanceLevel: value[0] }))}
+                            onValueChange={(value) =>
+                                setNewTask((prev) => ({
+                                    ...prev,
+                                    importanceLevel: value[0],
+                                }))
+                            }
                             className="cursor-pointer custom-range"
                             aria-valuenow={newTask.importanceLevel}
                             aria-valuemin={1}
@@ -258,14 +268,19 @@ export default function NewTask({ setTasks, className }: Props) {
                     <br />
                     <div className="flex gap-2">
                         <span>Low</span>
-                        <Slider 
+                        <Slider
                             id="difficultyLevel"
                             name="difficultyLevel"
                             min={1}
                             max={5}
                             step={1}
                             value={[newTask.difficultyLevel]}
-                            onValueChange={(value) => setNewTask((prev) => ({ ...prev, difficultyLevel: value[0] }))}
+                            onValueChange={(value) =>
+                                setNewTask((prev) => ({
+                                    ...prev,
+                                    difficultyLevel: value[0],
+                                }))
+                            }
                             className="cursor-pointer custom-range"
                             aria-valuenow={newTask.difficultyLevel}
                             aria-valuemin={1}
@@ -279,9 +294,10 @@ export default function NewTask({ setTasks, className }: Props) {
                 <button
                     type="submit"
                     aria-label="Create new task and add it to the list"
-                    className="rounded-full w-60 xl:w-72 py-2 mx-auto border-2 border-primary hover:bg-primary hover:text-primary-foreground translation-all duration-300"
+                    className={`rounded-full w-60 xl:w-72 py-2 mx-auto border-2 border-primary hover:bg-primary hover:text-primary-foreground ${isLoading && "opacity-75"} disabled:cursor-not-allowed translation-all duration-300`}
+                    disabled={isLoading || newTask.content.trim() === ""}
                 >
-                    Create new task
+                    {isLoading ? <span>Submitting...</span> : <span>Create new task</span> }
                 </button>
             </form>
         </>

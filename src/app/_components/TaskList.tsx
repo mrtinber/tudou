@@ -32,7 +32,7 @@ export default function TaskList({ tasks, setTasks, className }: TaskListProps) 
         <>
             {tasks.length > 0 && (
                 <>
-                    <div className={`lg:px-8 py-4 rounded-xl flex flex-col gap-2 ${className}`}>
+                    <div className={`lg:px-8 rounded-xl flex flex-col gap-2 ${className}`}>
                         {tasks.map((task) => (
                             <TaskElement
                                 key={task.id}
