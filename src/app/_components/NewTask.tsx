@@ -1,6 +1,7 @@
 "use client";
 
 import { createTask } from "@/actions/actions";
+import { Slider } from "@/components/ui/slider";
 import { getSession } from "next-auth/react";
 import { useState } from "react";
 import { FaMicrophone } from "react-icons/fa6";
@@ -74,27 +75,25 @@ export default function NewTask({ setTasks, className }: Props) {
         } catch (error) {
             console.error("Error creating task:", error);
         }
-
-        // event.currentTarget.reset();
     }
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewTask((prev) => ({ ...prev, content: event.target.value }));
     };
 
-    const handleImportance = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setNewTask((prev) => ({
-            ...prev,
-            importanceLevel: parseInt(event.target.value),
-        }));
-    };
+    // const handleImportance = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setNewTask((prev) => ({
+    //         ...prev,
+    //         importanceLevel: parseInt(event.target.value),
+    //     }));
+    // };
 
-    const handleDifficulty = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setNewTask((prev) => ({
-            ...prev,
-            difficultyLevel: parseInt(event.target.value),
-        }));
-    };
+    // const handleDifficulty = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setNewTask((prev) => ({
+    //         ...prev,
+    //         difficultyLevel: parseInt(event.target.value),
+    //     }));
+    // };
 
     const handleDaysSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value, checked } = event.target;
@@ -168,7 +167,7 @@ export default function NewTask({ setTasks, className }: Props) {
                             aria-label="Task content input"
                             aria-required="true"
                             value={newTask.content}
-                            className="w-full py-1 px-4 text-background rounded-full"
+                            className="w-full py-1 px-4 text-foreground bg-input rounded-full"
                             onChange={handleChange}
                         />
                         <button
@@ -234,15 +233,14 @@ export default function NewTask({ setTasks, className }: Props) {
                     <br />
                     <div className="flex gap-2">
                         <span>Low</span>
-                        <input
-                            type="range"
+                        <Slider 
                             id="importanceLevel"
                             name="importanceLevel"
-                            min="1"
-                            max="5"
-                            step="1"
-                            value={newTask.importanceLevel}
-                            onChange={handleImportance}
+                            min={1}
+                            max={5}
+                            step={1}
+                            value={[newTask.importanceLevel]}
+                            onValueChange={(value) => setNewTask((prev) => ({ ...prev, importanceLevel: value[0] }))}
                             className="cursor-pointer custom-range"
                             aria-valuenow={newTask.importanceLevel}
                             aria-valuemin={1}
@@ -260,16 +258,15 @@ export default function NewTask({ setTasks, className }: Props) {
                     <br />
                     <div className="flex gap-2">
                         <span>Low</span>
-                        <input
-                            type="range"
+                        <Slider 
                             id="difficultyLevel"
                             name="difficultyLevel"
-                            min="1"
-                            max="5"
-                            step="1"
-                            value={newTask.difficultyLevel}
-                            onChange={handleDifficulty}
-                            className="cursor-pointer"
+                            min={1}
+                            max={5}
+                            step={1}
+                            value={[newTask.difficultyLevel]}
+                            onValueChange={(value) => setNewTask((prev) => ({ ...prev, difficultyLevel: value[0] }))}
+                            className="cursor-pointer custom-range"
                             aria-valuenow={newTask.difficultyLevel}
                             aria-valuemin={1}
                             aria-valuemax={5}

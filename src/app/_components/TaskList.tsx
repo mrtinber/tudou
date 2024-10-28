@@ -51,7 +51,7 @@ export default function TaskList({ tasks, setTasks, className }: TaskListProps) 
                             <div className="w-full relative">
                                 <div className="w-full h-2 bg-secondary rounded-full absolute" />
                                 <div
-                                    className="h-2 bg-primary rounded-full absolute"
+                                    className="h-2 bg-primary rounded-full absolute transition-all duration-500"
                                     style={{ width: `${achievedPercentage}%` }}
                                     aria-label={`You have achieved ${achievedPercentage}% of your tasks.`}
                                     aria-live="polite"
@@ -61,7 +61,7 @@ export default function TaskList({ tasks, setTasks, className }: TaskListProps) 
                                     aria-valuemax={100}
                                 />
                             </div>
-                            <p aria-live="polite">{achievedPercentage}%</p>
+                            <p aria-live="polite">{achievedPercentage.toFixed(0)}%</p>
                         </div>
                     </div>
                 </>
