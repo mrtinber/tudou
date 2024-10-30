@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Task } from "./NewTask";
 import { FaArrowDownShortWide, FaArrowDownWideShort } from "react-icons/fa6";
+import { Task } from "../../../../types/task";
 
 type FilterBarProps = {
     tasks: Task[];

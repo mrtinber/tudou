@@ -6,7 +6,7 @@ import {
     FaRegCircle,
     FaRegTimesCircle,
 } from "react-icons/fa";
-import { Task } from "./NewTask";
+import { Task } from "../../../../types/task";
 
 type TaskElementProps = Task & {
     onDelete: () => void;
@@ -82,9 +82,9 @@ export default function TaskElement({
         handleToggleAchieved(isCompleted);
     }, [isCompleted]);
 
-    const toggleOpen =() => {
-        setIsOpen(!isOpen)
-    }
+    const toggleOpen = () => {
+        setIsOpen(!isOpen);
+    };
 
     return (
         <div
@@ -140,13 +140,11 @@ export default function TaskElement({
                     </p>
                     <div
                         tabIndex={0}
-                        className={`${isOpen ? "self-start" : "hidden"} md:inline-block text-xs border-2 border-foreground px-2 rounded-full font-bold`}
+                        className={`${
+                            isOpen ? "self-start" : "hidden"
+                        } md:inline-block text-xs border-2 border-foreground px-2 rounded-full font-bold`}
                     >
-                        {isOpen && (
-                            <span className="inline">
-                                Difficulty:
-                            </span>
-                        )}{" "}
+                        {isOpen && <span className="inline">Difficulty:</span>}{" "}
                         {difficultyLevel === 5
                             ? "Epic"
                             : difficultyLevel === 4
@@ -159,13 +157,11 @@ export default function TaskElement({
                     </div>
                     <div
                         tabIndex={0}
-                        className={`${isOpen ? "self-start" : "hidden"} md:inline-block text-xs border-2 border-foreground px-2 rounded-full font-bold`}
+                        className={`${
+                            isOpen ? "self-start" : "hidden"
+                        } md:inline-block text-xs border-2 border-foreground px-2 rounded-full font-bold`}
                     >
-                        {isOpen && (
-                            <span className="inline">
-                                Importance:
-                            </span>
-                        )}{" "}
+                        {isOpen && <span className="inline">Importance:</span>}{" "}
                         {importanceLevel === 5
                             ? "Urgent"
                             : importanceLevel === 4
@@ -184,7 +180,9 @@ export default function TaskElement({
                             <label
                                 key={index}
                                 tabIndex={0}
-                                className={`${isOpen ? "" : "hidden"} md:block rounded-full px-2 text-sm text-primary-foreground cursor-pointer ${
+                                className={`${
+                                    isOpen ? "" : "hidden"
+                                } md:block rounded-full px-2 text-sm text-primary-foreground cursor-pointer ${
                                     achievedDays.includes(day)
                                         ? "bg-primary/50 line-through"
                                         : "bg-primary"

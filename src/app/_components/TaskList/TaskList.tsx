@@ -1,8 +1,9 @@
 import { deleteTodo, handleAchievement } from "@/actions/actions";
-import { Task } from "./NewTask";
 import TaskElement from "./TaskElement";
 import { useEffect, useState } from "react";
 import { SortingBar } from "./SortingBar";
+import { ProgressBar } from "./ProgressBar";
+import { Task } from "../../../../types/task";
 
 type TaskListProps = {
     tasks: Task[];
@@ -16,10 +17,10 @@ export default function TaskList({
     className,
 }: TaskListProps) {
     const [isDeleting, setIsDeleting] = useState(false);
-    const [filteredList, setFilteredList] = useState(tasks)
+    const [filteredList, setFilteredList] = useState(tasks);
 
     useEffect(() => {
-        setFilteredList(tasks); // Mettre à jour filteredList chaque fois que tasks change
+        setFilteredList(tasks);
     }, [tasks]);
 
     async function handleDelete(indexToDelete: string) {
@@ -50,19 +51,19 @@ export default function TaskList({
         );
     }
 
-    const achievedPercentage =
-        (tasks.filter((task) => task.isAchieved).length * 100) / tasks.length;
-        
     return (
         <>
             {tasks.length > 0 && (
                 <>
-                    <SortingBar tasks={tasks} setFilteredList={setFilteredList}/>
+                    <SortingBar
+                        tasks={tasks}
+                        setFilteredList={setFilteredList}
+                    />
                     <div
                         className={`relative lg:px-8 py-4 rounded-xl flex flex-col gap-2 ${className}`}
                     >
                         {isDeleting && (
-                            <div className="absolute top-0 left-0 w-full h-full bg-background opacity-75"></div>
+                            <div className="absolute top-0 left-0 w-full h-full bg-background opacity-75 transition-opacity duration-300 ease-in-out"></div>
                         )}
                         {filteredList.map((task) => (
                             <TaskElement
@@ -83,24 +84,7 @@ export default function TaskList({
                                 }
                             />
                         ))}
-                        <div className="flex gap-2 items-center">
-                            <div className="w-full relative">
-                                <div className="w-full h-2 bg-secondary rounded-full absolute" />
-                                <div
-                                    className="h-2 bg-primary rounded-full absolute transition-all duration-500"
-                                    style={{ width: `${achievedPercentage}%` }}
-                                    aria-label={`You have achieved ${achievedPercentage}% of your tasks.`}
-                                    aria-live="polite"
-                                    role="progressbar"
-                                    aria-valuenow={achievedPercentage}
-                                    aria-valuemin={0}
-                                    aria-valuemax={100}
-                                />
-                            </div>
-                            <p aria-live="polite">
-                                {achievedPercentage.toFixed(0)}%
-                            </p>
-                        </div>
+                        <ProgressBar tasks={tasks} />
                     </div>
                 </>
             )}

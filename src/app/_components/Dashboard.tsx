@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import TaskList from "./TaskList";
-import NewTask, { Task } from "./NewTask";
+import TaskList from "./TaskList/TaskList";
+import NewTask from "./NewTask/NewTask";
+import { Task } from "../../../types/task";
 
 type DashboardProps = {
     taskList: Task[];
@@ -16,7 +17,10 @@ export default function Dashboard({ taskList }: DashboardProps) {
             className="flex flex-col lg:flex-row gap-4 h-screen"
             aria-label="Task dashboard"
         >
-            <NewTask setTasks={setTasks} className="w-full lg:w-1/3 h-[475px]" />
+            <NewTask
+                setTasks={setTasks}
+                className="w-full lg:w-1/3 h-[475px]"
+            />
             <section
                 className="w-full lg:w-2/3"
                 aria-live="polite"
