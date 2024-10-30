@@ -26,6 +26,7 @@ export default function TaskElement({
     const [achievedDays, setAchievedDays] = useState<string[]>(
         isAchieved ? days : []
     );
+    const [isOpen, setIsOpen] = useState(false);
 
     const toggleTask = () => {
         const newState = !isCompleted;
@@ -81,12 +82,19 @@ export default function TaskElement({
         handleToggleAchieved(isCompleted);
     }, [isCompleted]);
 
+    const toggleOpen =() => {
+        setIsOpen(!isOpen)
+    }
+
     return (
         <div
             tabIndex={0}
-            className="px-2 py-1 bg-secondary rounded-full text-accent-foreground flex items-center justify-between hover:bg-secondary/60 transition-all duration-300"
+            onClick={(e) => e.target === e.currentTarget && toggleOpen()}
+            className={`px-2 bg-secondary ${
+                isOpen ? "rounded-xl py-3" : "rounded-2xl py-1"
+            } text-accent-foreground flex items-center justify-between hover:bg-secondary/60 transition-all duration-300 ease-in-out`}
         >
-            <div className="flex gap-4 items-center">
+            <div className={`flex gap-4 items-center`}>
                 {isCompleted ? (
                     <FaRegCheckCircle
                         onClick={toggleTask}
@@ -94,7 +102,11 @@ export default function TaskElement({
                         aria-label="Mark task as incomplete"
                         className="text-primary cursor-pointer"
                         role="button"
-                        onKeyDown={(e) => {if(e.key === "Enter"){toggleTask()}}}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                toggleTask();
+                            }
+                        }}
                     />
                 ) : (
                     <FaRegCircle
@@ -103,68 +115,98 @@ export default function TaskElement({
                         tabIndex={0}
                         className="cursor-pointer"
                         role="button"
-                        onKeyDown={(e) => {if(e.key === "Enter"){toggleTask()}}}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                toggleTask();
+                            }
+                        }}
                     />
                 )}
 
-                <p
-                    className={isCompleted ? "line-through text-secondary-foreground" : ""}
-                    tabIndex={0}
+                <div
+                    className={`gap-4 ${
+                        isOpen ? "flex flex-col" : "flex flex-row items-center"
+                    }`}
                 >
-                    {content}
-                </p>
-                <div tabIndex={0} className="hidden md:block text-xs border-2 border-foreground px-2 rounded-full font-bold">
-                    {/* <span className="hidden lg:inline">Difficulty:</span>{" "} */}
-                    {difficultyLevel === 5
-                        ? "Epic"
-                        : difficultyLevel === 4
-                        ? "Hard"
-                        : difficultyLevel === 3
-                        ? "Average"
-                        : difficultyLevel === 2
-                        ? "Easy"
-                        : "Effortless"}
-                </div>
-                <div tabIndex={0} className="hidden md:block text-xs border-2 border-foreground px-2 rounded-full font-bold">
-                    {/* <span className="hidden lg:inline">Importance:</span>{" "} */}
-                    {importanceLevel === 5
-                        ? "Urgent"
-                        : importanceLevel === 4
-                        ? "Quite important"
-                        : importanceLevel === 3
-                        ? "Moderate"
-                        : importanceLevel === 2
-                        ? "Can wait"
-                        : "Optional"}
-                </div>
-                <fieldset className="flex gap-2">
-                    <legend className="hidden">
-                        Cross the days that you completed
-                    </legend>
-                    {days.map((day, index) => (
-                        <label
-                            key={index}
-                            tabIndex={0}
-                            className={`hidden md:block rounded-full px-2 text-sm text-primary-foreground cursor-pointer ${
-                                achievedDays.includes(day)
-                                    ? "bg-primary/50 line-through"
-                                    : "bg-primary"
-                            }`}
+                    <p
+                        className={
+                            isCompleted
+                                ? "line-through text-secondary-foreground"
+                                : ""
+                        }
+                        tabIndex={0}
+                    >
+                        {content}
+                    </p>
+                    <div
+                        tabIndex={0}
+                        className={`${isOpen ? "self-start" : "hidden"} md:inline-block text-xs border-2 border-foreground px-2 rounded-full font-bold`}
+                    >
+                        {isOpen && (
+                            <span className="inline">
+                                Difficulty:
+                            </span>
+                        )}{" "}
+                        {difficultyLevel === 5
+                            ? "Epic"
+                            : difficultyLevel === 4
+                            ? "Hard"
+                            : difficultyLevel === 3
+                            ? "Average"
+                            : difficultyLevel === 2
+                            ? "Easy"
+                            : "Effortless"}
+                    </div>
+                    <div
+                        tabIndex={0}
+                        className={`${isOpen ? "self-start" : "hidden"} md:inline-block text-xs border-2 border-foreground px-2 rounded-full font-bold`}
+                    >
+                        {isOpen && (
+                            <span className="inline">
+                                Importance:
+                            </span>
+                        )}{" "}
+                        {importanceLevel === 5
+                            ? "Urgent"
+                            : importanceLevel === 4
+                            ? "Quite important"
+                            : importanceLevel === 3
+                            ? "Moderate"
+                            : importanceLevel === 2
+                            ? "Can wait"
+                            : "Optional"}
+                    </div>
+                    <fieldset className="flex gap-2">
+                        <legend className="hidden">
+                            Cross the days that you completed
+                        </legend>
+                        {days.map((day, index) => (
+                            <label
+                                key={index}
+                                tabIndex={0}
+                                className={`${isOpen ? "" : "hidden"} md:block rounded-full px-2 text-sm text-primary-foreground cursor-pointer ${
+                                    achievedDays.includes(day)
+                                        ? "bg-primary/50 line-through"
+                                        : "bg-primary"
+                                }`}
                                 role="button"
-                                onKeyDown={(event) => handleKeyDownDays(event, day)}
-                        >
-                            <input
-                                type="checkbox"
-                                name="daysSelect"
-                                value={day}
-                                onChange={handleAchievement}
-                                checked={achievedDays.includes(day)}
-                                className="hidden"
-                            />
-                            {day}
-                        </label>
-                    ))}
-                </fieldset>
+                                onKeyDown={(event) =>
+                                    handleKeyDownDays(event, day)
+                                }
+                            >
+                                <input
+                                    type="checkbox"
+                                    name="daysSelect"
+                                    value={day}
+                                    onChange={handleAchievement}
+                                    checked={achievedDays.includes(day)}
+                                    className="hidden"
+                                />
+                                {day}
+                            </label>
+                        ))}
+                    </fieldset>
+                </div>
             </div>
             <FaRegTimesCircle
                 className="hover:scale-110 transition-all duration-500 hover:text-destructive cursor-pointer"
@@ -172,7 +214,11 @@ export default function TaskElement({
                 tabIndex={0}
                 aria-label="Delete task"
                 role="button"
-                onKeyDown={(e) => {if(e.key === "Enter"){onDelete()}}}
+                onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        onDelete();
+                    }
+                }}
             />
         </div>
     );
