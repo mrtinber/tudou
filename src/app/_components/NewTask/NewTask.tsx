@@ -35,8 +35,6 @@ export default function NewTask({ setTasks, className }: Props) {
         if (!session) {
             console.error("User is not authenticated");
             return;
-        } else {
-            console.log("User is connected.", session.user.id);
         }
 
         if (newTask.content.trim() === "") return;

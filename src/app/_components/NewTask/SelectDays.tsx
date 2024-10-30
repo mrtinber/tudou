@@ -56,8 +56,8 @@ export const SelectDays = ({selectedDays, setSelectedDays, setNewTask}: SelectDa
                         htmlFor={`daysSelect-${day}`}
                         className={`rounded-full px-4 py-1 cursor-pointer hover:scale-105 transition-all duration-300 text-primary-foreground ${
                             selectedDays.includes(day)
-                                ? "bg-primary"
-                                : "bg-primary/50"
+                                ? "border-2 border-primary bg-primary scale-105"
+                                : "border-2 border-primary bg-primary/20"
                         }`}
                         aria-label={`Select ${day}`}
                         aria-checked={selectedDays.includes(day)}
