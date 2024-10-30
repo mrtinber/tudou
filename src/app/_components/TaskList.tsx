@@ -1,6 +1,8 @@
 import { deleteTodo, handleAchievement } from "@/actions/actions";
 import { Task } from "./NewTask";
 import TaskElement from "./TaskElement";
+import { useState } from "react";
+import { SortingBar } from "./SortingBar";
 
 type TaskListProps = {
     tasks: Task[];
@@ -8,14 +10,33 @@ type TaskListProps = {
     className: string;
 };
 
-export default function TaskList({ tasks, setTasks, className }: TaskListProps) {
-    async function handleDelete(indexToDelete: string) {
-        await deleteTodo(indexToDelete);
+export default function TaskList({
+    tasks,
+    setTasks,
+    className,
+}: TaskListProps) {
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [filteredList, setFilteredList] = useState(tasks)
 
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== indexToDelete));
+    async function handleDelete(indexToDelete: string) {
+        setIsDeleting(true);
+
+        try {
+            await deleteTodo(indexToDelete);
+            setTasks((prevTasks) =>
+                prevTasks.filter((task) => task.id !== indexToDelete)
+            );
+        } catch (error) {
+            console.error("Failure while deleting task:", error);
+        } finally {
+            setIsDeleting(false);
+        }
     }
 
-    async function handleToggleAchieved (idToToggle: string, isAchieved: boolean) {
+    async function handleToggleAchieved(
+        idToToggle: string,
+        isAchieved: boolean
+    ) {
         await handleAchievement(idToToggle, isAchieved);
 
         setTasks((prevTasks) =>
@@ -23,17 +44,23 @@ export default function TaskList({ tasks, setTasks, className }: TaskListProps) 
                 task.id === idToToggle ? { ...task, isAchieved } : task
             )
         );
-    };
+    }
 
     const achievedPercentage =
         (tasks.filter((task) => task.isAchieved).length * 100) / tasks.length;
-
+        
     return (
         <>
             {tasks.length > 0 && (
                 <>
-                    <div className={`lg:px-8 rounded-xl flex flex-col gap-2 ${className}`}>
-                        {tasks.map((task) => (
+                    <SortingBar tasks={tasks} setFilteredList={setFilteredList}/>
+                    <div
+                        className={`relative lg:px-8 py-4 rounded-xl flex flex-col gap-2 ${className}`}
+                    >
+                        {isDeleting && (
+                            <div className="absolute top-0 left-0 w-full h-full bg-background opacity-75"></div>
+                        )}
+                        {filteredList.map((task) => (
                             <TaskElement
                                 key={task.id}
                                 content={task.content}
@@ -44,7 +71,12 @@ export default function TaskList({ tasks, setTasks, className }: TaskListProps) 
                                     handleDelete(task.id ? task.id : "")
                                 }
                                 isAchieved={task.isAchieved}
-                                handleToggleAchieved={(newState: boolean) => handleToggleAchieved(task.id ? task.id : "", newState)}
+                                handleToggleAchieved={(newState: boolean) =>
+                                    handleToggleAchieved(
+                                        task.id ? task.id : "",
+                                        newState
+                                    )
+                                }
                             />
                         ))}
                         <div className="flex gap-2 items-center">
@@ -61,7 +93,9 @@ export default function TaskList({ tasks, setTasks, className }: TaskListProps) 
                                     aria-valuemax={100}
                                 />
                             </div>
-                            <p aria-live="polite">{achievedPercentage.toFixed(0)}%</p>
+                            <p aria-live="polite">
+                                {achievedPercentage.toFixed(0)}%
+                            </p>
                         </div>
                     </div>
                 </>
