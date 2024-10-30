@@ -1,7 +1,7 @@
 import { deleteTodo, handleAchievement } from "@/actions/actions";
 import { Task } from "./NewTask";
 import TaskElement from "./TaskElement";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SortingBar } from "./SortingBar";
 
 type TaskListProps = {
@@ -17,6 +17,10 @@ export default function TaskList({
 }: TaskListProps) {
     const [isDeleting, setIsDeleting] = useState(false);
     const [filteredList, setFilteredList] = useState(tasks)
+
+    useEffect(() => {
+        setFilteredList(tasks); // Mettre à jour filteredList chaque fois que tasks change
+    }, [tasks]);
 
     async function handleDelete(indexToDelete: string) {
         setIsDeleting(true);

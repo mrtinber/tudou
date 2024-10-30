@@ -86,20 +86,6 @@ export default function NewTask({ setTasks, className }: Props) {
         setNewTask((prev) => ({ ...prev, content: event.target.value }));
     };
 
-    // const handleImportance = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setNewTask((prev) => ({
-    //         ...prev,
-    //         importanceLevel: parseInt(event.target.value),
-    //     }));
-    // };
-
-    // const handleDifficulty = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setNewTask((prev) => ({
-    //         ...prev,
-    //         difficultyLevel: parseInt(event.target.value),
-    //     }));
-    // };
-
     const handleDaysSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value, checked } = event.target;
         setSelectedDays((prev) =>
@@ -174,8 +160,14 @@ export default function NewTask({ setTasks, className }: Props) {
                             value={newTask.content}
                             className="w-full py-1 px-4 text-foreground bg-input rounded-full"
                             onChange={handleChange}
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                    event.preventDefault();
+                                }
+                            }}
                         />
                         <button
+                            type="button"
                             onClick={handleRecord}
                             aria-label="Start recording"
                             className="bg-primary text-primary-foreground disabled:bg-secondary hover:bg-destructive hover:text-destructive-foreground hover:scale-105 focus:ring-4 focus:ring-primary/50 rounded-full px-2 transition-all duration-300"
