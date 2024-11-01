@@ -17,7 +17,6 @@ export const RecordButton: React.FC<RecordButtonProps> = ({ setNewTask }) => {
             transcript =
                 transcript.charAt(0).toUpperCase() + transcript.slice(1);
 
-            console.log("La transcription: ", transcript);
             setNewTask((prev) => ({ ...prev, content: transcript }));
         };
 

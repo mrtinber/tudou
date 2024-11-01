@@ -13,7 +13,6 @@ export default async function Home() {
 
     if (session) {
         userTodos = await getTodos(session.user.id);
-        console.log("Fetched todos:", userTodos);
     }
 
     return (

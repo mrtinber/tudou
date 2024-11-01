@@ -37,10 +37,16 @@ export default function NewTask({ setTasks, className }: Props) {
             return;
         }
 
-        if (newTask.content.trim() === "") return;
+        if (newTask.content.trim() === "" || newTask.content.length > 200) {
+            console.error("Invalid task content");
+            setIsLoading(false);
+            return;
+        }
+
+        const safeContent = newTask.content.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
         const formData = new FormData();
-        formData.append("content", newTask.content);
+        formData.append("content", safeContent);
         formData.append("difficultyLevel", newTask.difficultyLevel.toString());
         formData.append("importanceLevel", newTask.importanceLevel.toString());
         selectedDays.forEach((day) => formData.append("daysSelect", day));
@@ -48,13 +54,10 @@ export default function NewTask({ setTasks, className }: Props) {
         formData.append("user", session.user.id);
 
         try {
-            // On appelle l'action, qui gère la création de la tâche et la manipulation d'état
             const createdTask = await createTask(formData);
 
-            // On met à jour l'état avec les tâches renvoyées par l'action
             setTasks((prev) => [...prev, createdTask]);
 
-            // Réinitialiser le formulaire
             setNewTask({
                 content: "",
                 difficultyLevel: 3,
@@ -105,6 +108,7 @@ export default function NewTask({ setTasks, className }: Props) {
                                     event.preventDefault();
                                 }
                             }}
+                            maxLength={200}
                         />
                         <RecordButton setNewTask={setNewTask} />
                     </div>
