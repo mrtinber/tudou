@@ -12,6 +12,11 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
+const antonReg = localFont({
+  src:"./fonts/Anton-Regular.ttf",
+  variable:"--font-anton-reg",
+  weight: "400",
+})
 
 export const metadata: Metadata = {
   title: "TuDou",
@@ -26,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${antonReg.variable} font-sans antialiased`}
       >
         {children}
       </body>

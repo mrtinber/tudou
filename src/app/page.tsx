@@ -24,8 +24,8 @@ export default async function Home() {
                     <Dashboard taskList={userTodos} />
                 ) : (
                     <div className="w-full py-32 gap-8 flex flex-col items-center justify-center">
-                        <h2 className="text-6xl lg:text-8xl font-light text-center">
-                            Welcome to Tudou!
+                        <h2 className="text-6xl lg:text-8xl font-anton font-light text-center">
+                            Welcome to TuDou!
                         </h2>
                         <h3 className="text-lg md:text-xl font-sans font-light">
                             Please login first to access the tool.
